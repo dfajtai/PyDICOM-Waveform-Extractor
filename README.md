@@ -115,7 +115,7 @@ Run the executable without any arguments to use the default configuration (`conf
 --input_dir ./my_dicom_files
 --output_dir ./my_output_folder
 --metadata_format yaml
---output_structure "{PATIENT_ID}/{STUDY_DATE}/{CHANNEL}"
+--output_structure "{PATIENT_ID}/{STUDY_DATE}/{STUDY_TIME}"
 --file_format_mask ".dcm" ".ima"
 ```
 
