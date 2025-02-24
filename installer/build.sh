@@ -1,21 +1,11 @@
 #!/bin/bash
 
-# Ensure the script stops on errors
-set -e
-
 # Paths
 SCRIPT="../main.py"
 CONFIG_FILE="../config.json"
 OUTPUT_NAME="dicom_waveform_extractor"
 
-# Create virtual environment
-echo "Creating virtual environment..."
-python -m venv venv
-source venv/bin/activate
-
-# Install dependencies
-echo "Installing dependencies..."
-pip install -r ../requirements.txt
+pip install pyinstaller
 
 # Clean previous builds
 echo "Cleaning previous builds..."

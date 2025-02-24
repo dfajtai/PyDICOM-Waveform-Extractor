@@ -35,6 +35,7 @@ To build the project into a standalone executable, use the provided installer sc
 Run the following command to build the project:
 
 ```
+./installer/create_venv.sh
 ./installer/build.sh
 ```
 
@@ -43,6 +44,7 @@ Run the following command to build the project:
 Run the following command in Command Prompt to build the project:
 
 ```
+installer\create_venv.bat
 installer\build.bat
 ```
 
