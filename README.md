@@ -53,6 +53,8 @@ The resulting executable will be located in the `dist/` folder:
 - On Linux: `dist/main`
 - On Windows: `dist\main.exe`
 
+---
+
 ## Usage
 
 The generated executable can be used to process DICOM files, extract waveform data, and save the results as CSV files along with metadata in JSON or YAML format. The executable supports various command-line arguments for flexibility.
