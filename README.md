@@ -126,5 +126,5 @@ Run the executable without any arguments to use the default configuration (`conf
 
 ### **Output**
 
-- Processed waveform data is saved as CSV files in the specified output directory.
+- Extracted waveform data is saved as CSV files in the specified output directory.
 - Metadata is saved as JSON or YAML files based on your configuration.
