@@ -1,7 +1,7 @@
 import argparse
 import logging
 from dcm_waveform_extractor.config_loader import load_config
-from dcm_waveform_extractor.data_extraction import read_angio_dcm, extract_dcm_id_info
+from dcm_waveform_extractor.data_extraction import extract_waveform_data_form_dcm, extract_dcm_id_info
 from dcm_waveform_extractor.metadata_writers import store_json, store_yaml
 import os
 import glob
@@ -92,7 +92,7 @@ def process_dicom_folder(input_folder: str, output_folder: str, metadata_format:
             info["study_time"] = info.get("study_time", "UnknownTime")
 
             # Extract waveform data and metadata
-            waveform_data, content_info = read_angio_dcm(dicom_file)
+            waveform_data, content_info = extract_waveform_data_form_dcm(dicom_file)
 
             # Process each channel group
             for group_name, df in waveform_data.items():
@@ -109,7 +109,7 @@ def process_dicom_folder(input_folder: str, output_folder: str, metadata_format:
                 print(f"Saved CSV: {csv_path}")
 
             # Save metadata to JSON or YAML based on config
-            metadata_path = os.path.join(output_folder, f"metadata.{metadata_format}")
+            metadata_path = os.path.join(custom_output_folder, f"metadata.{metadata_format}")
             
             if metadata_format == "json":
                 store_json(content_info, metadata_path)
@@ -178,7 +178,7 @@ def main():
 
         # Override config values with CLI arguments if provided
         input_dir = args.input_dir if args.input_dir else config.get("input_dir", "./dicom_files")
-        output_dir = args.output_dir if args.output_dir else config.get("output_dir", "./output_csv")
+        output_dir = args.output_dir if args.output_dir else config.get("output_dir", "./waveform_dir")
         metadata_format = args.metadata_format if args.metadata_format else config.get("metadata_format", "json").lower()
         
         # Default folder structure is {PATIENT_ID}/{STUDY_DATE}/{STUDY_TIME} if not provided

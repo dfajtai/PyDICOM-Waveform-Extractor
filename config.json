@@ -1,11 +1,7 @@
 {
-    "input_dir": "./dicom_files",
-    "output_dir": "./output_csv",
-    "metadata_format": "json",
-    "output_structure": "{PATIENT_ID}/{STUDY_DATE}/{STUDY_TIME}",
-    "file_format_mask": [
-        "*.dcm",
-        "*.ima",
-        "*"
-    ]
+  "input_dir": "./dicom_files",
+  "output_dir": "./output",
+  "metadata_format": "json",
+  "output_structure": "{PATIENT_ID}/{STUDY_DATE}/{STUDY_TIME}",
+  "file_format_mask": ["*.dcm", "*.ima", "*"]
 }

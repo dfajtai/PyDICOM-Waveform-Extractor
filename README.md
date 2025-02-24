@@ -52,8 +52,8 @@ installer\build.bat
 
 The resulting executable will be located in the `dist/` folder:
 
-- On Linux: `dist/main`
-- On Windows: `dist\main.exe`
+- On Linux: `dist/dicom_waveform_extractor`
+- On Windows: `dist\dicom_waveform_extractor.exe`
 
 ---
 
@@ -65,8 +65,8 @@ The generated executable can be used to process DICOM files, extract waveform da
 
 Run the executable without any arguments to use the default configuration (`config.json`):
 
-- Linux/MacOS: `./main`
-- Windows: `main.exe`
+- Linux/MacOS: `./dicom_waveform_extractor`
+- Windows: `dicom_waveform_extractor.exe`
 
 ### **Command-Line Arguments**
 

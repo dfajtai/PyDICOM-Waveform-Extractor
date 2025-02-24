@@ -54,7 +54,7 @@ def generate_default_config(config_path: str):
         # Define default configuration
         default_config = OrderedDict({
             "input_dir": "./dicom_files",  # Folder containing DICOM files
-            "output_dir": "./output_csv",  # Folder for saving output files
+            "output_dir": "./waveform_dir",  # Folder for saving output files
             "metadata_format": "json",     # Options: "json" or "yaml"
             "output_structure": "{PATIENT_ID}/{STUDY_DATE}/{STUDY_TIME}",  # Default folder structure
             "file_format_mask": ["*.dcm", "*.ima", "*"]

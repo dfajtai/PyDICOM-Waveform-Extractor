@@ -7,7 +7,8 @@ from collections import OrderedDict
 
 import numpy as np
 import pandas as pd
-import pydicom as dicom
+from pydicom import dcmread
+from pydicom.dataset import Dataset
 
 
 def parse_datetime(date: str, time: str) -> Optional[datetime.datetime]:
@@ -64,7 +65,7 @@ def extract_dcm_id_info(dcm_path: str) -> tuple[Optional[dict],bool]:
     
     if not os.path.exists(dcm_path):
         return {}, False
-    D = dicom.read_file(dcm_path,stop_before_pixels=True, force=True)
+    D = dcmread(dcm_path,stop_before_pixels=True, force=True)
 
     info = OrderedDict()
     info["series"] = D.get("SeriesDescription","UnknownSeries")
@@ -116,8 +117,8 @@ def safe_extract_channel_def(sequence, tag_path, default=None, nested=False):
 
 
 
-def read_angio_dcm(
-    dicom_file: str,
+def extract_waveform_data_form_dcm(
+    dcm: str | Dataset,
     relevant_channels: Optional[dict] = None,
     extract_data: bool = True,
     custom_parser: bool = False,
@@ -128,7 +129,7 @@ def read_angio_dcm(
     Reads waveform data from an angiography-related DICOM file and extracts it into structured data.
 
     Parameters:
-        dicom_file (str): The file path to the DICOM file.
+        dcm (str | pydicom.Dataset): The file path to the DICOM file or a DICOM Dataset 
         relevant_channels (Optional[dict]): A dictionary specifying which channels to extract. 
             Keys are channel groups (e.g., "PRESSURE"), and values are lists of channel labels to include.
             If `None`, all channels are extracted.
@@ -171,10 +172,20 @@ def read_angio_dcm(
         >>> print(info["name"], info["start"])
         >>> print(waveforms["PRESSURE"].head())
     """
-    if not os.path.exists(dicom_file):
-        return
-
-    dcm = dicom.dcmread(dicom_file, force = True)
+    if not isinstance(dcm, Dataset):
+        assert isinstance(dcm,str)
+        dicom_file = dcm
+        
+        if not os.path.exists(dcm):
+            raise AttributeError("DCM file '{0}' not valid.".format(dicom_file))
+        
+        dcm = dcmread(dcm, force = True)
+        
+    else:
+        dicom_file = dcm.get("SOPInstanceUID")
+        
+    assert isinstance(dcm,Dataset)
+    
     patient_name = dcm.get('PatientName')
     patient_id = dcm.get('PatientID')
     accession_number = dcm.get('AccessionNumber')

@@ -41,6 +41,26 @@ def run_test():
     # Validate the results
     validate_test_results(test_output_folder)
 
+def run_pydicom_test():
+    try:
+        from pydicom import examples
+    except ImportError as e:
+        print(e)
+        return
+    
+    from dcm_waveform_extractor.data_extraction import extract_waveform_data_form_dcm
+    dcm_data = examples.waveform
+    
+    try:
+        waveform_df_dict, content_info = extract_waveform_data_form_dcm(dcm_data)
+        
+        print(content_info)
+        print(waveform_df_dict)
+        
+    except Exception as e:
+        print(e)
+        
+    
 
 def validate_test_results(output_folder):
     """
@@ -72,4 +92,5 @@ def validate_test_results(output_folder):
 
 
 if __name__ == "__main__":
+    run_pydicom_test()
     run_test()
