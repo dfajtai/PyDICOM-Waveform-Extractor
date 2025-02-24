@@ -1,2 +1,2 @@
 # dcm_waveform2csv
-A simplistic python project of waveform extraction from DICOM images
+A simple Python project (MVP) for extracting waveforms from DICOM images.
