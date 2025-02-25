@@ -4,12 +4,12 @@
 
 ---
 
-## Core features:
+## Core features
 - Extracts waveform data from DICOM files.
 - Outputs data in plain CSV, JSON, or YAML formats.
 
-## Scope and Limitations:
-This project is a minimal viable product (MVP) and does not reflect the developer's full capabilities or expertise. If you're looking for advanced features such as:
+## Scope and Limitations
+This project is a Minimal Viable Product (MVP) and does not reflect the developer's full capabilities or expertise. If you're looking for advanced features such as:
 - High-level functional interfaces,
 - Queryable registries of analyzed data,
 - Signal processing,
