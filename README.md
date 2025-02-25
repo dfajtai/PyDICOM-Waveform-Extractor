@@ -12,7 +12,7 @@
 
 ## Sample Data Source
 
-This project uses sample DICOM ECG data from the [marcodebe/dicom-ecg-plot](https://github.com/marcodebe/dicom-ecg-plot) repository. The repository provides tools for plotting ECG waveforms from DICOM files and includes sample data for testing and demonstration purposes.
+This project uses sample DICOM ECG data from the [marcodebe/dicom-ecg-plot](https://github.com/marcodebe/dicom-ecg-plot) repository. This repository provides tools for plotting ECG waveforms from DICOM files and includes sample data for testing and demonstration purposes.
 
 ---
 
