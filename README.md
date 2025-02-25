@@ -90,7 +90,7 @@ Run the executable without any arguments to use the default configuration (`conf
 | `--input_dir`        | Override the input directory specified in the config file.                                   | `--input_dir ./my_dicom_files`                                          |
 | `--output_dir`       | Override the output directory specified in the config file.                                  | `--output_dir ./my_output_folder`                                       |
 | `--metadata_format`  | Override the metadata format specified in the config file (`json` or `yaml`).                | `--metadata_format yaml`                                                |
-| `--output_structure` | Override the output folder structure using placeholders like `{PATIENT_ID}/{STUDY_DATE}`.    | `--output_structure "{PATIENT_ID}/{STUDY_DATE}/{STUDY_TIME}/{CHANNEL}"` |
+| `--output_structure` | Override the output folder structure using placeholders like `{PATIENT_ID}/{STUDY_DATE}`.    | `--output_structure "{PATIENT_ID}/{STUDY_DATE}"`                        |
 | `--file_format_mask` | Override the file format mask specified in the config file (e.g., `*.dcm`, `*.ima`, or `*`). | `--file_format_mask "*.dcm" "*.ima"`                                    |
 
 ### **Examples**
