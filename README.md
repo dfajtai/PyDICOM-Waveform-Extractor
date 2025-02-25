@@ -1,28 +1,42 @@
 # PyDICOM-Waveform-Extractor 
 
-**A lightweight Python project (MVP) designed to extract waveforms from DICOM images, leveraging publicly available Python libraries. This release focuses solely on core functionalities, offering no insight into any advanced, high-level implementations beyond this foundational scope. Made for those who prefer not to reinvent the wheel or spend two minutes searching for solutions themselves.**
+**A lightweight Python project (MVP) designed to extract waveforms from DICOM images, leveraging publicly available Python libraries. This release focuses solely on core functionalities, offering no advanced implementations beyond this foundational scope. Made for those who prefer not to reinvent the wheel — or spend two minutes searching for solutions themselves.**
+
+---
+
+## Core features:
+- Extracts waveform data from DICOM files.
+- Outputs data in plain CSV, JSON, or YAML formats.
+
+## Scope and Limitations:
+This project is a minimal viable product (MVP) and does not reflect the developer's full capabilities or expertise. If you're looking for advanced features such as:
+- High-level functional interfaces,
+- Queryable registries of analyzed data,
+- Signal processing,
+- Interactive plotting tools,
+...then you're looking in the wrong place.
+
+---
+
+## License
+This project is licensed under the MIT License (see LICENSE file for details).
+
+---
+
+## Disclaimer
+This project is provided as-is with no guarantees or support. Use at your own risk.
 
 ---
 
 ## ⚠️ Warning
 
-**Please note:** This code does not handle GDPR compliance or modern data privacy policies. The extracted results are stored in simple JSON/YAML and CSV formats, with **no anonymization** or data protection features implemented. Use this tool responsibly and ensure that you comply with relevant data privacy regulations when working with sensitive information.
+This code does not handle GDPR compliance or modern data privacy policies. The extracted results are stored in simple JSON/YAML and CSV formats, with **no anonymization** or data protection features implemented. Use this tool responsibly and ensure that you comply with relevant data privacy regulations when working with sensitive information.
 
 ---
 
 ## Sample Data Source
 
 This project uses sample DICOM ECG data from the [marcodebe/dicom-ecg-plot](https://github.com/marcodebe/dicom-ecg-plot) repository. This repository provides tools for plotting ECG waveforms from DICOM files and includes sample data for testing and demonstration purposes.
-
----
-
-## Additional Resources
-
-For further reading and understanding of DICOM waveforms and their handling in Python, check out the following resources:
-
-- [DICOM Waveform Standard (Supplement 30)](https://www.dicomstandard.org/News-dir/ftsup/docs/sups/sup30.pdf): Detailed documentation about the DICOM waveform standard.
-- [Innolitics - DICOM Standard Browser](https://dicom.innolitics.com/ciods/electrooculogram/waveform/54000100): Structured, detailed references.
-- [Pydicom Waveform Tutorial](https://pydicom.github.io/pydicom/dev/tutorials/waveforms.html): A tutorial on working with waveform data in DICOM files using the `pydicom` library.
 
 ---
 
@@ -128,6 +142,17 @@ Run the executable without any arguments to use the default configuration (`conf
 
 - Extracted waveform data is saved as CSV files in the specified output directory.
 - Metadata is saved as JSON or YAML files based on your configuration.
+
+---
+
+## Additional Resources and References
+
+For further reading on DICOM waveforms and their handling in Python, check out:
+
+- [DICOM Waveform Standard (Supplement 30)](https://www.dicomstandard.org/News-dir/ftsup/docs/sups/sup30.pdf): Detailed documentation about the DICOM waveform standard.
+- [Innolitics - DICOM Standard Browser](https://dicom.innolitics.com/ciods/electrooculogram/waveform/54000100): Structured, detailed references.
+- [Pydicom Waveform Tutorial](https://pydicom.github.io/pydicom/dev/tutorials/waveforms.html): A tutorial on working with waveform data in DICOM files using the `pydicom` library.
+
 
 ---
 _"PyDICOM-Waveform-Extractor: Because reading the manual is hard."_  

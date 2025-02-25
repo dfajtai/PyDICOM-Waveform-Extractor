@@ -1,3 +1,32 @@
+"""
+PyDICOM-Waveform-Extractor: Extracting waveforms so you don’t have to.
+
+This lightweight MVP (Minimal Viable Product) is here to save the day for those who
+prefer not to reinvent the wheel—or spend two minutes searching for a solution. 
+Designed with just enough functionality to get the job done, this tool extracts 
+waveform data from DICOM files and outputs it in CSV, JSON, or YAML formats.
+
+⚠️ WARNING: This code doesn't do GDPR compliance, data anonymization, or any of that 
+fancy stuff. Use responsibly and don't blame us if your boss starts asking questions.
+
+Features:
+- Extracts waveform data from DICOM files.
+- Outputs results in plain CSV and metadata in JSON/YAML formats.
+- Provides a command-line interface because GUIs are overrated.
+
+What this *doesn't* do:
+- Signal processing? Nope.
+- Interactive plotting? Sorry.
+- Advanced querying or registries? Not happening here.
+- Replace your need to actually understand what you're doing? Absolutely not.
+
+If you're looking for advanced features, you're in the wrong place. But hey, if
+you just want to get some waveforms out of DICOM files without breaking a sweat,
+you've come to the right script.
+
+Made with just enough effort to work. You're welcome.
+"""
+
 import argparse
 import logging
 from dcm_waveform_extractor.config_loader import load_config
@@ -5,7 +34,7 @@ from dcm_waveform_extractor.data_extraction import extract_waveform_data_form_dc
 from dcm_waveform_extractor.metadata_writers import store_json, store_yaml
 import os
 import glob
-
+import random
 
 # Configure logging
 LOG_FILE = "error.log"
@@ -125,7 +154,46 @@ def process_dicom_folder(input_folder: str, output_folder: str, metadata_format:
             if raise_error:
                 raise e
             
+def show_tip_of_the_day():
+    """
+    Displays a random 'Tip of the Day' based on the developer's story.
+    A little sass, a little wisdom—take it or leave it.
+    """
+    tips = [
+        "If you're going to rely on someone else's work, at least give them proper credit.",
+        "MVP stands for 'Minimal Viable Product,' not 'Most Valuable Project.' Manage your expectations.",
+        "When you ask for the bare minimum, don't expect the holy grail.",
+        "A little gratitude goes a long way—just saying.",
+        "If you think this is good, imagine what I didn’t give you.",
+        "Building something great takes time. Handing over an MVP? Not so much.",
+        "Treat your developers well—they might not hand over just the glaze next time.",
+        "Remember, an MVP is like a demo track—it’s not the full album.",
+        "If you want more than this MVP, maybe try asking nicely next time.",
+        "When you say ‘just make it work,’ don’t expect bells and whistles."
+    ]
 
+    # Print a random tip
+    print(f"\n💡 Tip of the Day: {random.choice(tips)}\n")
+
+
+def add_spicy_help(parser):
+    """
+    Extends the argparse help menu with random puns inspired by the developer's story.
+    """
+    spicy_puns = [
+        "PyDICOM-Waveform-Extractor: Made this so you don't have to. You're welcome.",
+        "PyDICOM-Waveform-Extractor: Extracting waveforms because some people can't.",
+        "PyDICOM-Waveform-Extractor: Because reading the manual is hard.",
+        "PyDICOM-Waveform-Extractor: An MVP brought to you by years of effort and two minutes of patience.",
+        "PyDICOM-Waveform-Extractor: Remember, MVP stands for 'Minimal Viable Product,' not 'Most Valuable Project.'",
+        "PyDICOM-Waveform-Extractor: Waveforms extracted. Gratitude? Still pending."
+    ]
+
+    # Pick a random pun
+    spicy_message = random.choice(spicy_puns)
+
+    # Append it to the default help text
+    parser.description = f"{parser.description}\n\n{spicy_message}"
 
 def main():
     # Create argument parser
@@ -135,18 +203,18 @@ def main():
 
     # Add arguments for CLI
     parser.add_argument(
-        "--config", 
+        "--config", "-c",
         type=str, 
         default="./config.json", 
         help="Path to the configuration file (default: './config.json')."
     )
     parser.add_argument(
-        "--input_dir", 
+        "--input_dir", "-i",
         type=str, 
         help="Override the input directory specified in the config file."
     )
     parser.add_argument(
-        "--output_dir", 
+        "--output_dir", "-o",
         type=str, 
         help="Override the output directory specified in the config file."
     )
@@ -169,6 +237,9 @@ def main():
         help="Override the file format mask specified in the config file. Example: '*.dcm *.ima *'."
     )
 
+    # Add spicy help with random puns
+    add_spicy_help(parser)
+    
     # Parse arguments
     args = parser.parse_args()
     try:
@@ -195,9 +266,17 @@ def main():
         process_dicom_folder(input_dir, output_dir, metadata_format, output_structure, file_format_mask)
 
     except Exception as e:
+        # TODO: Add proper error handling... or not.
+        
         error_message = f"Critical error occurred: {e}"
         logging.error(error_message)  # Log critical errors to the log file
         print(error_message)  # Print critical errors to the console
 
 if __name__ == "__main__":
+    """
+    Main entry point for PyDICOM-Waveform-Extractor.
+    """
+    show_tip_of_the_day()  # Display a random tip for some lighthearted wisdom
+    
+    # Rest of your script logic here (e.g., argument parsing, processing)
     main()
