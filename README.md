@@ -14,6 +14,7 @@ This project is a Minimal Viable Product (MVP) and does not reflect the develope
 - Queryable registries of analyzed data,
 - Signal processing,
 - Interactive plotting tools,
+  
 ...then you're looking in the wrong place.
 
 ---
