@@ -21,7 +21,7 @@ git clone https://github.com/dfajtai/PyDICOM-Waveform-Extractor.git
 ```
 
 ### Option 2: Download Manually
-- [Download the latest version](https://github.com/dfajtai/PyDICOM-Waveform-Extractor/archive/refs/heads/main.zip)
+- [Download the latest version](https://github.com/dfajtai/PyDICOM-Waveform-Extractor/archive/refs/heads/release.zip)
 - Extract the ZIP file to your desired location.
 
 ---
