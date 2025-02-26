@@ -63,6 +63,10 @@ installer\create_venv.bat
 installer\build.bat
 ```
 
+#### Installation Guide
+
+For detailed installation instructions on Windows, please refer to the [Windows Installation Guide](installer/windows_howto.md).
+
 ### **Output**
 
 The resulting executable will be located in the `dist/` folder:
