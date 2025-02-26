@@ -35,6 +35,7 @@ from dcm_waveform_extractor.metadata_writers import store_json, store_yaml
 import os
 import glob
 import random
+import time
 
 # Configure logging
 LOG_FILE = "error.log"
@@ -173,14 +174,14 @@ def show_tip_of_the_day():
     ]
 
     # Print a random tip
-    print(f"\n💡 Tip of the Day: {random.choice(tips)}\n")
+    print(f"\nTip of the Day: {random.choice(tips)}\n")
 
 
-def add_spicy_help(parser):
+def add_slogan(parser):
     """
     Extends the argparse help menu with some extra helpful information.
     """
-    spicy_puns = [
+    slogans = [
         "PyDICOM-Waveform-Extractor: Made this so you don't have to. You're welcome.",
         "PyDICOM-Waveform-Extractor: Extracting waveforms because some people can't.",
         "PyDICOM-Waveform-Extractor: Because reading the manual is hard.",
@@ -190,10 +191,10 @@ def add_spicy_help(parser):
     ]
 
     # Pick a random pun
-    spicy_message = random.choice(spicy_puns)
+    slogan = random.choice(slogans)
 
     # Append it to the default help text
-    parser.description = f"{parser.description}\n\n{spicy_message}"
+    parser.description = f"{slogan}\n\n{parser.description}\n\n"
 
 def main():
     # Create argument parser
@@ -238,7 +239,10 @@ def main():
     )
 
     # Add spicy help with random puns
-    add_spicy_help(parser)
+    add_slogan(parser)
+    
+    parser.print_help()
+    print(f"\n{['*']*80}\n")
     
     # Parse arguments
     args = parser.parse_args()
@@ -280,3 +284,8 @@ if __name__ == "__main__":
     
     # Rest of your script logic here (e.g., argument parsing, processing)
     main()
+    
+    input("\nPress Enter to exit...")
+    print("\n\nPyDICOM-Waveform-Extractor: Waveforms extracted. Gratitude? Still pending.")
+    time.sleep(5)
+    

@@ -33,16 +33,14 @@ venv\Scripts\python -m pip show pyinstaller >nul 2>&1 || (
 
 REM Step 4: Build Executable with PyInstaller
 echo Building executable with PyInstaller...
-venv\Scripts\python -m pyinstaller --onefile --clean ^
---name "%OUTPUT_NAME%" ^
---add-data "%CONFIG_FILE%;." ^
---hidden-import gdcm ^
---hidden-import jinja2 ^
---hidden-import PIL ^
---hidden-import tqdm ^
---hidden-import simplejson ^
---hidden-import pkg_resources.extern ^
-"%SCRIPT%"
+pyinstaller --onefile --clean --name "%OUTPUT_NAME%" --add-data "%CONFIG_FILE%;." "%SCRIPT%"
+
+REM --hidden-import gdcm
+REM --hidden-import jinja2
+REM --hidden-import PIL
+REM --hidden-import tqdm
+REM --hidden-import simplejson
+REM --hidden-import pkg_resources.extern
 
 REM Step 5: Notify user of build completion
 echo ============================================

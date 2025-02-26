@@ -36,6 +36,7 @@ REM Step 4: Upgrade pip in the Virtual Environment
 echo Upgrading pip...
 python -m pip install --upgrade pip
 
+
 REM Step 5: Install Dependencies from requirements.txt (if present)
 if exist %REQUIREMENTS_FILE% (
     echo Installing dependencies from %REQUIREMENTS_FILE%...
@@ -47,7 +48,7 @@ if exist %REQUIREMENTS_FILE% (
 REM Step 6: Install Build Dependencies
 echo Installing Build requirements...
 pip install --upgrade setuptools
-pip install pyinstaller python-gdcm jinja2 pillow tqdm simplejson
+pip install pyinstaller python-gdcm jinja2 pillow tqdm simplejson pefile
 
 
 echo ============================================

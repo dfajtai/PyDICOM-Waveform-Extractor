@@ -9,6 +9,7 @@
      - [x32](https://www.python.org/ftp/python/3.13.2/python-3.13.2.exe)  
 3. Run the installer and **select "Add to PATH"** during the install procedure.
 
+⚠️ **Note:** Remember the Python version you installed, as it will be needed later. (Tested for Python >= 3.10.)
 ---
 
 ## 2. Clone This Repository  
@@ -34,7 +35,11 @@ git clone https://github.com/dfajtai/PyDICOM-Waveform-Extractor.git
    ```
 
 ### Step 2: Set Up the Environment
-1. Run the create_env.bat script to set up the required environment variables:
+1. Ensure the correct Python version is set in the 'create_env.bat' file.
+  ```sh
+  set PYTHON_VERSION=3.13
+  ```
+2. Run the 'create_env.bat' script to set up the required environment variables:
   ```sh
   create_env.bat
   ```
@@ -48,3 +53,12 @@ This script configures the necessary paths and dependencies.
   ```
 
 This will prepare all necessary components for running the software.
+
+### Step 3 Alternative: Run the project inside the Virtual Environment
+1. Execute the windows_no_build_ran.bat file:
+  ```sh
+  windows_no_build_run.bat
+  ```
+
+---
+_"PyDICOM-Waveform-Extractor: Because reading the manual is hard."_  
