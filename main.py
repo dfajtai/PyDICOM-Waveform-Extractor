@@ -156,8 +156,8 @@ def process_dicom_folder(input_folder: str, output_folder: str, metadata_format:
             
 def show_tip_of_the_day():
     """
-    Displays a random 'Tip of the Day' based on the developer's story.
-    A little sass, a little wisdom—take it or leave it.
+    Displays a random 'Tip of the Day'.
+    Take it or leave it.
     """
     tips = [
         "If you're going to rely on someone else's work, at least give them proper credit.",
@@ -178,7 +178,7 @@ def show_tip_of_the_day():
 
 def add_spicy_help(parser):
     """
-    Extends the argparse help menu with random puns inspired by the developer's story.
+    Extends the argparse help menu with some extra helpful information.
     """
     spicy_puns = [
         "PyDICOM-Waveform-Extractor: Made this so you don't have to. You're welcome.",
