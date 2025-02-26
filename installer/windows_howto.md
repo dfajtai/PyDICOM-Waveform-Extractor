@@ -4,7 +4,7 @@
 
 1. Download a Python installer from the [official Python site](https://www.python.org/downloads/windows/).  
 2. Choose your preferred version, e.g.:  
-   - [Python 3.10.11 (April 5, 2023)](https://www.python.org/downloads/release/python-31011/)  
+   - [Python 3.13.2 - Feb. 4, 2025](https://www.python.org/downloads/release/python-3132/)  
      - [x64](https://www.python.org/ftp/python/3.13.2/python-3.13.2-amd64.exe)  
      - [x32](https://www.python.org/ftp/python/3.13.2/python-3.13.2.exe)  
 3. Run the installer and **select "Add to PATH"** during the install procedure.

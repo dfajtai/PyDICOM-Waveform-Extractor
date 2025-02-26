@@ -1,21 +1,52 @@
 @echo off
-echo Cleaning previous builds...
+
+REM Clear the screen
+cls
+
+echo ============================================
+echo Cleaning Previous Builds
+echo ============================================
 
 REM Define paths
 set SCRIPT=..\main.py
 set CONFIG_FILE=..\config.json
-set OUTPUT_NAME=dicom_waveform_extractor.exe
+set OUTPUT_NAME=dicom_waveform_extractor
 
-REM Remove old build files
-rmdir /s /q build 2>nul
-rmdir /s /q dist 2>nul
-del %OUTPUT_NAME%.spec 2>nul
+REM Step 1: Remove old build files
+if exist build rmdir /s /q build
+if exist dist rmdir /s /q dist
+if exist %OUTPUT_NAME%.spec del %OUTPUT_NAME%.spec
 
-REM Activate virtual environment
+REM Step 2: Activate the virtual environment
+echo Activating virtual environment...
 call venv\Scripts\activate.bat
 
-echo Building executable with PyInstaller...
-venv\Scripts\python -m pyinstaller --onefile --clean --name "%OUTPUT_NAME%" --add-data "%CONFIG_FILE%;." "%SCRIPT%"
+REM Step 3: Ensure PyInstaller is installed in the virtual environment
+echo Checking PyInstaller installation...
+venv\Scripts\python -m pip show pyinstaller >nul 2>&1 || (
+    echo Installing PyInstaller...
+    venv\Scripts\python -m pip install pyinstaller || (
+        echo Failed to install PyInstaller. Exiting...
+        exit /b 1
+    )
+)
 
-echo Build complete. Executable is located in .\dist\%OUTPUT_NAME%
+REM Step 4: Build Executable with PyInstaller
+echo Building executable with PyInstaller...
+venv\Scripts\python -m pyinstaller --onefile --clean ^
+--name "%OUTPUT_NAME%" ^
+--add-data "%CONFIG_FILE%;." ^
+--hidden-import gdcm ^
+--hidden-import jinja2 ^
+--hidden-import PIL ^
+--hidden-import tqdm ^
+--hidden-import simplejson ^
+--hidden-import pkg_resources.extern ^
+"%SCRIPT%"
+
+REM Step 5: Notify user of build completion
+echo ============================================
+echo Build complete. Executable is located in .\dist\%OUTPUT_NAME%.
+echo ============================================
+
 pause

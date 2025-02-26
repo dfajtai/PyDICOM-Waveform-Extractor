@@ -4,13 +4,14 @@ REM Clear the screen
 cls
 
 echo ============================================
-echo Creating Virtual Environment with Specific Python Version
+echo Setting up Python Virtual Environment
 echo ============================================
 
 REM Define variables
 set VENV_DIR=venv
 set PYTHON_VERSION=3.13
 set REQUIREMENTS_FILE=..\requirements.txt
+set SCRIPT_TO_RUN=..\main.py
 
 REM Step 1: Check if the specified Python version is available
 py -%PYTHON_VERSION% --version >nul 2>&1
@@ -20,7 +21,7 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-REM Step 2: Create Virtual Environment
+REM Step 2: Create Virtual Environment if it doesn't exist
 if not exist %VENV_DIR% (
     echo Creating virtual environment using Python %PYTHON_VERSION%...
     py -%PYTHON_VERSION% -m venv %VENV_DIR%
@@ -41,17 +42,25 @@ if exist %REQUIREMENTS_FILE% (
     echo Installing dependencies from %REQUIREMENTS_FILE%...
     python -m pip install -r %REQUIREMENTS_FILE%
 ) else (
-    echo No %REQUIREMENTS_FILE% found. Skipping dependency installation.
+    echo WARNING: %REQUIREMENTS_FILE% not found. Skipping dependency installation.
 )
 
-REM Step 6: Install Build Dependencies
-echo Installing Build requirements...
-pip install --upgrade setuptools
-pip install pyinstaller python-gdcm jinja2 pillow tqdm simplejson
+REM Step 6: Run the Python Script
+if exist %SCRIPT_TO_RUN% (
+    echo ============================================
+    echo Running Python script: %SCRIPT_TO_RUN%...
+    where python
+    python --version
+    python %SCRIPT_TO_RUN%
+) else (
+    echo ERROR: Python script %SCRIPT_TO_RUN% not found!
+)
 
+REM Step 7: Deactivate Virtual Environment
+echo Deactivating virtual environment...
+deactivate
 
 echo ============================================
-echo Virtual environment setup complete.
+echo Script execution complete.
 echo ============================================
-
 pause
