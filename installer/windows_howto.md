@@ -28,9 +28,9 @@ git clone https://github.com/dfajtai/PyDICOM-Waveform-Extractor.git
 
 ### Step 1: Navigate to the Build Folder  
 1. Open a terminal (Command Prompt or PowerShell).  
-2. Change directory to the `build` folder:  
+2. Change directory to the `installer` folder:  
    ```sh
-   cd path/to/PyDICOM-Waveform-Extractor/build
+   cd path/to/PyDICOM-Waveform-Extractor/installer
    ```
 
 ### Step 2: Set Up the Environment
