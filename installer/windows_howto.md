@@ -10,6 +10,7 @@
 3. Run the installer and **select "Add to PATH"** during the install procedure.
 
 ⚠️ **Note:** Remember the Python version you installed, as it will be needed later. (Tested for Python >= 3.10.)
+
 ---
 
 ## 2. Clone This Repository  
