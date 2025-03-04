@@ -177,9 +177,9 @@ def show_tip_of_the_day():
     print(f"\nTip of the Day: {random.choice(tips)}\n")
 
 
-def add_slogan(parser):
+def show_slogan():
     """
-    Extends the argparse help menu with some extra helpful information.
+    Generates meaningful slogan.
     """
     slogans = [
         "PyDICOM-Waveform-Extractor: Made this so you don't have to. You're welcome.",
@@ -191,16 +191,15 @@ def add_slogan(parser):
     ]
 
     # Pick a random pun
-    slogan = random.choice(slogans)
+    slogan = random.choice(slogans) + "\nFor more information check: https://github.com/dfajtai/PyDICOM-Waveform-Extractor"
 
-    # Append it to the default help text
-    parser.description = f"{slogan}\n\n{parser.description}\n\n"
+    print(slogan)
+
 
 def main():
     # Create argument parser
     parser = argparse.ArgumentParser(
-        description="Process DICOM files to extract waveform data and save it as CSV along with metadata.\n"+
-        +"For more information check: https://github.com/dfajtai/PyDICOM-Waveform-Extractor\n"
+        description="Process DICOM files to extract waveform data and save it as CSV along with metadata."
 
     )
 
@@ -240,11 +239,6 @@ def main():
         help="Override the file format mask specified in the config file. Example: '*.dcm *.ima *'."
     )
 
-    # Add spicy help with random puns
-    add_slogan(parser)
-    
-    parser.print_help()
-    print(f"\n{['*']*80}\n")
     
     # Parse arguments
     args = parser.parse_args()
@@ -282,12 +276,13 @@ if __name__ == "__main__":
     """
     Main entry point for PyDICOM-Waveform-Extractor.
     """
+    show_slogan()
     show_tip_of_the_day()  # Display a random tip for some lighthearted wisdom
     
     # Rest of your script logic here (e.g., argument parsing, processing)
     main()
     
     input("\nPress Enter to exit...")
-    print("\n\nPyDICOM-Waveform-Extractor: Waveforms extracted. Gratitude? Still pending.")
+    print("\nPyDICOM-Waveform-Extractor: Waveforms extracted. Gratitude? Still pending.")
     time.sleep(5)
     

@@ -15,5 +15,8 @@ rm -rf build dist "${OUTPUT_NAME}.spec"
 echo "Building executable with PyInstaller..."
 pyinstaller --onefile --clean --name "${OUTPUT_NAME}" --add-data "${CONFIG_FILE}:." "${SCRIPT}"
 
+# Make the output file executable
+chmod +x "dist/${OUTPUT_NAME}"
+
 # Notify user of success
-echo "Build complete. Executable is located in ./dist/${OUTPUT_NAME}"
+echo "Build complete. Executable is located in ./dist/${OUTPUT_NAME} and is now executable."
