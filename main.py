@@ -199,7 +199,9 @@ def add_slogan(parser):
 def main():
     # Create argument parser
     parser = argparse.ArgumentParser(
-        description="Process DICOM files to extract waveform data and save it as CSV along with metadata."
+        description="Process DICOM files to extract waveform data and save it as CSV along with metadata.\n"+
+        +"For more information check: https://github.com/dfajtai/PyDICOM-Waveform-Extractor\n"
+
     )
 
     # Add arguments for CLI

@@ -72,6 +72,7 @@ def extract_dcm_id_info(dcm_path: str) -> tuple[Optional[dict],bool]:
     info["name"] = str(D.get("PatientName","UnknownPatient"))
     info["id"] = str(D.get("PatientID","UnknownPatientID"))
     info["accession_number"] = str(D.get("AccessionNumber","UnknownAccession"))
+    info["sop_instance_uid"] = str(D.get("SOPInstanceUID",None))
         
     try:
         date = str(D.ContentDate).strip().replace(" ","")
@@ -186,6 +187,7 @@ def extract_waveform_data_form_dcm(
         
     assert isinstance(dcm,Dataset)
     
+    sop_instance_uid = str(dcm.get("SOPInstanceUID",None))
     patient_name = dcm.get('PatientName')
     patient_id = dcm.get('PatientID')
     accession_number = dcm.get('AccessionNumber')
@@ -213,6 +215,7 @@ def extract_waveform_data_form_dcm(
     end_datetime = start_datetime+datetime.timedelta(seconds=float(num_of_samples-1)/float(freq))
     content_info = OrderedDict({"name":str(patient_name),
                     "id":str(patient_id),
+                    "SOPInstanceUID":sop_instance_uid,
                     "accession":str(accession_number),
                     "series":str(series_description),
                     **format_datetime_fields(start_datetime, end_datetime),
