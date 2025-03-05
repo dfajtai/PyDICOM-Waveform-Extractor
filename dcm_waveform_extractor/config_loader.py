@@ -5,6 +5,7 @@ from collections import OrderedDict
 # Define accepted metadata tags
 ACCEPTED_METADATA_TAGS = [
     "ACCESSION_NUMBER",
+    "SOP_INSTANCE_UID",
     "PATIENT_NAME",
     "PATIENT_ID",
     "STUDY_DATE",
@@ -27,7 +28,7 @@ def sanitize_output_structure(structure: str) -> str:
         ValueError: If unsupported tags are found in the structure.
     """
     # Extract placeholders (e.g., {PATIENT_ID}, {STUDY_DATE})
-    placeholders = [part.strip("{}") for part in structure.split("/") if part.startswith("{") and part.endswith("}")]
+    placeholders = [part.strip("{}") for part in structure.split(os.sep) if part.startswith("{") and part.endswith("}")]
 
     # Check for unsupported tags
     unsupported_tags = [tag for tag in placeholders if tag not in ACCEPTED_METADATA_TAGS]
@@ -53,10 +54,10 @@ def generate_default_config(config_path: str):
 
         # Define default configuration
         default_config = OrderedDict({
-            "input_dir": "./dicom_files",  # Folder containing DICOM files
-            "output_dir": "./waveform_dir",  # Folder for saving output files
+            "input_dir": f".{os.sep}dicom_files",  # Folder containing DICOM files
+            "output_dir": f".{os.sep}waveform_dir",  # Folder for saving output files
             "metadata_format": "json",     # Options: "json" or "yaml"
-            "output_structure": "{PATIENT_ID}/{STUDY_DATE}/{STUDY_TIME}",  # Default folder structure
+            "output_structure": os.path.join("{PATIENT_ID}","{STUDY_DATE}","{STUDY_TIME}"),  # Default folder structure
             "file_format_mask": ["*.dcm", "*.ima", "*"]
         })
 
@@ -88,7 +89,7 @@ def load_config(config_path: str) -> dict:
             config = json.load(f)
 
         # Sanitize output_structure
-        config["output_structure"] = sanitize_output_structure(config.get("output_structure", "{PATIENT_ID}/{STUDY_DATE}/{STUDY_TIME}"))
+        config["output_structure"] = sanitize_output_structure(config.get("output_structure", os.path.join("{PATIENT_ID}","{STUDY_DATE}","{STUDY_TIME}")))
 
         
         # Ensure file_format_mask is properly set

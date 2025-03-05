@@ -30,12 +30,17 @@ Made with just enough effort to work. You're welcome.
 import argparse
 import logging
 from dcm_waveform_extractor.config_loader import load_config
-from dcm_waveform_extractor.data_extraction import extract_waveform_data_form_dcm, extract_dcm_id_info
+from dcm_waveform_extractor.data_extraction import extract_waveform_data_form_dcm, extract_dcm_global_metadata
 from dcm_waveform_extractor.metadata_writers import store_json, store_yaml
 import os
 import glob
 import random
 import time
+import re
+import locale
+
+locale.setlocale(locale.LC_ALL, '')
+decimal_separator = locale.localeconv()["decimal_point"]
 
 # Configure logging
 LOG_FILE = "error.log"
@@ -59,11 +64,16 @@ def create_output_path(base_dir: str, structure: str, metadata: dict) -> str:
         str: The full path of the output directory.
     """
     try:
-        # Replace placeholders in the structure with actual metadata values
+        # Replace placeholders in the structure with actual metadata values       
         sub_path = structure.format(
-            PATIENT_ID=metadata.get("id", "UnknownPatient"),
-            STUDY_DATE=metadata.get("study_date", "UnknownDate"),
-            STUDY_TIME=metadata.get("study_time", "UnknownTime")
+            ACCESSION_NUMBER=metadata.get("ACCESSION_NUMBER", "UnknownAccession"),
+            SOP_INSTANCE_UID=metadata.get("SOP_INSTANCE_UID", "UnknownUID"),
+            PATIENT_NAME=metadata.get("PATIENT_NAME", "UnknownPatientName"),
+            PATIENT_ID=metadata.get("PATIENT_ID", "UnknownPatient"),
+            STUDY_DATE=metadata.get("STUDY_DATE", "UnknownDate"),
+            STUDY_TIME=metadata.get("STUDY_TIME", "UnknownTime"),
+            SERIES_DESCRIPTION=metadata.get("SERIES_DESCRIPTION", "UnknownSeries"),
+            MODALITY=metadata.get("MODALITY", "UnknownModality")
         )
         full_path = os.path.join(base_dir, sub_path)
 
@@ -77,7 +87,7 @@ def create_output_path(base_dir: str, structure: str, metadata: dict) -> str:
 
 
 def process_dicom_folder(input_folder: str, output_folder: str, metadata_format: str, output_structure: str, file_format_mask: list,
-                         raise_error:bool=False):
+                         raise_error:bool=False, recursive_search:bool=True):
     """
     Processes all DICOM files in the input folder and saves extracted data.
 
@@ -92,12 +102,30 @@ def process_dicom_folder(input_folder: str, output_folder: str, metadata_format:
     Returns:
         None
     """
-    
+        
     # Collect all files matching the specified masks
     dicom_files = []
-    for mask in file_format_mask:
-        dicom_files.extend(glob.glob(os.path.join(input_folder, mask)))
     
+    def human_to_regex(pattern):
+        """
+        Converts a human-readable file-matching pattern into a regex pattern.
+        """
+        # Escape dots and replace wildcards (*) with regex equivalents
+        pattern = pattern.replace('.', r'\.').replace('*', r'.*')
+        return f"^{pattern}$"  # Ensure the entire filename matches the pattern
+    
+    if recursive_search:    
+        # Walk through the directory tree
+        for root, _, files in os.walk(input_folder):
+            for file in files:
+                for mask in file_format_mask:
+                    regex_mask = human_to_regex(mask)
+                    if re.match(regex_mask, file):  # Match the file name against the regex pattern
+                        dicom_files.append(os.path.join(root, file))
+    else:
+        for mask in file_format_mask:
+            dicom_files.extend(glob.glob(os.path.join(input_folder, mask)))
+        
     if not dicom_files:
         print(f"No DICOM files found in {input_folder} with specified masks: {file_format_mask}.")
         return
@@ -112,17 +140,19 @@ def process_dicom_folder(input_folder: str, output_folder: str, metadata_format:
     for dicom_file in dicom_files:
         try:
             # Validate and extract basic info before processing
-            info, is_valid = extract_dcm_id_info(dicom_file)
+            info, is_valid = extract_dcm_global_metadata(dicom_file)
+            
+            print(f"Processing file '{dicom_file}'")
             if not is_valid:
                 print(f"Skipping file {dicom_file}: Not a valid waveform series.")
                 continue
 
             # Ensure default values for StudyDate and StudyTime if missing
-            info["study_date"] = info.get("study_date", "UnknownDate")
-            info["study_time"] = info.get("study_time", "UnknownTime")
+            info["STUDY_DATE"] = info.get("STUDY_DATE", "UNKNOWN_DATE")
+            info["STUDY_TIME"] = info.get("STUDY_TIME", "UNKNOWN_TIME")
 
             # Extract waveform data and metadata
-            waveform_data, content_info = extract_waveform_data_form_dcm(dicom_file)
+            waveform_data, content_info = extract_waveform_data_form_dcm(dicom_file,global_metadata=info)
 
             # Process each channel group
             for group_name, df in waveform_data.items():
@@ -135,7 +165,16 @@ def process_dicom_folder(input_folder: str, output_folder: str, metadata_format:
 
                 # Save CSV for the channel group
                 csv_path = os.path.join(custom_output_folder, f"{group_name}.csv")
-                df.to_csv(csv_path, index=False)
+                
+                # handle locale...
+                if decimal_separator == ",":
+                    for c in df.columns.tolist():
+                        if c!="DateTime":
+                            df[c] = df[c].map(lambda x: f"{x:.4f}".replace(".", ","))                    
+                    df.to_csv(csv_path, index=False,sep=";")
+                                        
+                else:
+                    df.to_csv(csv_path, index=False)
                 print(f"Saved CSV: {csv_path}")
 
             # Save metadata to JSON or YAML based on config
@@ -165,7 +204,6 @@ def show_tip_of_the_day():
         "MVP stands for 'Minimal Viable Product,' not 'Most Valuable Project.' Manage your expectations.",
         "When you ask for the bare minimum, don't expect the holy grail.",
         "A little gratitude goes a long way—just saying.",
-        "If you think this is good, imagine what I didn’t give you.",
         "Building something great takes time. Handing over an MVP? Not so much.",
         "Treat your developers well—they might not hand over just the glaze next time.",
         "Remember, an MVP is like a demo track—it’s not the full album.",
@@ -263,7 +301,7 @@ def main():
             raise ValueError("Invalid metadata format. Use 'json' or 'yaml'.")
 
         # Process DICOM files
-        process_dicom_folder(input_dir, output_dir, metadata_format, output_structure, file_format_mask)
+        process_dicom_folder(input_dir, output_dir, metadata_format, output_structure, file_format_mask,recursive_search=True)
 
     except Exception as e:
         # TODO: Add proper error handling... or not.
@@ -284,5 +322,5 @@ if __name__ == "__main__":
     
     input("\nPress Enter to exit...")
     print("\nPyDICOM-Waveform-Extractor: Waveforms extracted. Gratitude? Still pending.")
-    time.sleep(5)
+    time.sleep(1)
     

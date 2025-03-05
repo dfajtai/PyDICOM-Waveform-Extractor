@@ -1,7 +1,11 @@
 {
-  "input_dir": "./dicom_files",
-  "output_dir": "./output",
-  "metadata_format": "json",
-  "output_structure": "{PATIENT_ID}/{STUDY_DATE}/{STUDY_TIME}",
-  "file_format_mask": ["*.dcm", "*.ima", "*"]
+    "input_dir": ".\\sample",
+    "output_dir": ".\\waveform_dir",
+    "metadata_format": "yaml",
+    "output_structure": "{PATIENT_ID}\\{STUDY_DATE}\\{STUDY_TIME}\\{SOP_INSTANCE_UID}",
+    "file_format_mask": [
+        "*.dcm",
+        "*.ima",
+        "*"
+    ]
 }

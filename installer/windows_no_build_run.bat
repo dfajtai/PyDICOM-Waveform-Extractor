@@ -49,8 +49,6 @@ REM Step 6: Run the Python Script
 if exist %SCRIPT_TO_RUN% (
     echo ============================================
     echo Running Python script: %SCRIPT_TO_RUN%...
-    where python
-    python --version
     python %SCRIPT_TO_RUN%
 ) else (
     echo ERROR: Python script %SCRIPT_TO_RUN% not found!
